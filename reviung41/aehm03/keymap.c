@@ -28,12 +28,29 @@ enum layer_names {
 #define CTL_ESC CTL_T(KC_ESC)
 #define SHFT_SPC LSFT_T(KC_SPC)
 
+// Tap Dance declarations
+enum {
+	A,
+	O,
+	U,
+};
+
+// Tap dance definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+	// umlaut
+	[A] = ACTION_TAP_DANCE_DOUBLE(KC_A, LALT(KC_U)),
+	[U] = ACTION_TAP_DANCE_DOUBLE(KC_U, LALT(KC_U)),
+	[O] = ACTION_TAP_DANCE_DOUBLE(KC_O, LALT(KC_U))
+
+};
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_reviung41(
-    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_BSPC,
-    CTL_ESC,  KC_A,     KC_S,     KC_D,     KC_F,      KC_G,               KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
+    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     TD(U),    KC_I,     TD(O),    KC_P,     KC_BSPC,
+    CTL_ESC,  TD(A),    KC_S,     KC_D,     KC_F,      KC_G,               KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
     KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  RSFT_T(KC_ENT),
-                                            KC_LALT,   LOWER,    SHFT_SPC,   RAISE,    KC_RGUI
+                                            KC_LALT,   LOWER,   SHFT_SPC,  RAISE,    KC_RGUI
   ),
   
   [_LOWER] = LAYOUT_reviung41(
