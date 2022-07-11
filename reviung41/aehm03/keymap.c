@@ -17,6 +17,7 @@
 
 enum layer_names {
     _BASE,
+    _COLEMAK,
     _LOWER,
     _RAISE,
     _ADJUST
@@ -25,33 +26,61 @@ enum layer_names {
 #define LOWER  MO(_LOWER)
 #define RAISE  MO(_RAISE)
 #define ADJUST MO(_ADJUST)
+
 #define CTL_ESC CTL_T(KC_ESC)
+
 #define HR_J RSFT_T(KC_J)
 #define HR_F LSFT_T(KC_F)
+#define HR_D LGUI_T(KC_D)
+#define HR_K RGUI_T(KC_K)
+#define HR_S LALT_T(KC_S)
+#define HR_L LALT_T(KC_L)
+
+#define HR_A LCTL_T(KC_A)
+#define HR_SCLN RCTL_T(KC_SCLN)
+
+#define TG_COL TG(_COLEMAK)
 
 // Tap Dance declarations
 enum {
-	A,
-	O,
-	U,
+	U
 };
 
 // Tap dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
 	// umlaut
-	[A] = ACTION_TAP_DANCE_DOUBLE(KC_A, LALT(KC_U)),
-	[U] = ACTION_TAP_DANCE_DOUBLE(KC_U, LALT(KC_U)),
-	[O] = ACTION_TAP_DANCE_DOUBLE(KC_O, LALT(KC_U))
+	[U] = ACTION_TAP_DANCE_DOUBLE(KC_U, LALT(KC_U))
 
 };
 
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case HR_J:
+            return true;
+        case HR_K:
+            return true;
+        case HR_L:
+            return true;
+        case HR_SCLN:
+            return true;
+        default:
+            return false;
+    }
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_reviung41(
-    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     TD(U),    KC_I,     TD(O),    KC_P,     KC_BSPC,
-    CTL_ESC,  TD(A),    KC_S,     KC_D,     HR_F,      KC_G,               KC_H,     HR_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
-    KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  RSFT_T(KC_ENT),
-                                            KC_LALT,   LOWER,   KC_SPC,  RAISE,    KC_RGUI
+    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     TD(U),    KC_I,     KC_O,     KC_P,     KC_BSPC,
+    KC_ESC,   HR_A,     HR_S,     HR_D,     HR_F,      KC_G,               KC_H,     HR_J,     HR_K,     HR_L,     HR_SCLN,  KC_QUOT,
+    XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
+                                            KC_ESC,   LOWER,   KC_SPC,  RAISE,      KC_DEL
+  ),
+
+  [_COLEMAK] = LAYOUT_reviung41(
+    _______,   KC_Q,     KC_W,     KC_F,     KC_P,      KC_B,               KC_J,     KC_L,     KC_U,     KC_Y,     KC_SCLN,  _______,
+    _______,   KC_A,     KC_R,     KC_S,     KC_T,      KC_G,               KC_M,     KC_N,     KC_E,     KC_I,     KC_O,     _______,
+    _______,   KC_Z,     KC_X,     KC_C,     KC_D,      KC_V,               KC_K,     KC_H,     KC_COMM,  KC_DOT,   KC_SLSH,  _______,
+                                            _______,   _______,   _______,  _______,   _______
   ),
   
   [_LOWER] = LAYOUT_reviung41(
@@ -71,12 +100,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT_reviung41(
     RGB_VAI,   RGB_SAI, RGB_HUI,  RGB_MOD,  XXXXXXX,   RGB_TOG,            KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,
     RGB_VAD,   RGB_SAD, RGB_HUD,  RGB_RMOD, XXXXXXX,   XXXXXXX,            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-    XXXXXXX,   XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,            RESET,    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+    XXXXXXX,   XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,            RESET,    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG_COL,
                                             _______,   _______,  XXXXXXX,  _______,  _______
   ),
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+	switch (get_highest_layer(state)) {
+        	case _COLEMAK:
+            		rgblight_enable();
+			sethsv(HSV_RED,   (LED_TYPE *)&led[1]); 
+			rgblight_set();	
+            		break;
+        	default:
+            		break;
+	}
+	return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
