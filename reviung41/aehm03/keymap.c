@@ -26,20 +26,29 @@ enum layer_names {
 #define LOWER  MO(_LOWER)
 #define RAISE  MO(_RAISE)
 #define ADJUST MO(_ADJUST)
+#define TG_COL TG(_COLEMAK)
 
-#define CTL_ESC CTL_T(KC_ESC)
 
+// regular homerow keys
 #define HR_J RSFT_T(KC_J)
 #define HR_F LSFT_T(KC_F)
 #define HR_D LGUI_T(KC_D)
 #define HR_K RGUI_T(KC_K)
 #define HR_S LALT_T(KC_S)
 #define HR_L LALT_T(KC_L)
-
-#define HR_A LCTL_T(KC_A)
 #define HR_SCLN RCTL_T(KC_SCLN)
+#define HR_A LCTL_T(KC_A)
 
-#define TG_COL TG(_COLEMAK)
+// colemak (dh) homerow keys
+#define HR_N RSFT_T(KC_N)
+#define HR_T LSFT_T(KC_T)
+#define HR_S2 LGUI_T(KC_S)
+#define HR_E RGUI_T(KC_E)
+#define HR_R LALT_T(KC_R)
+#define HR_I LALT_T(KC_I)
+#define HR_O RCTL_T(KC_O)
+
+
 
 // Tap Dance declarations
 enum {
@@ -53,6 +62,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 };
 
+
+// retro tapping for homerow keys only on the right side because I use the left side together with the mouse
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case HR_J:
@@ -63,6 +74,14 @@ bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
             return true;
         case HR_SCLN:
             return true;
+        case HR_N:
+            return true;
+        case HR_E:
+            return true;
+        case HR_I:
+            return true;
+        case HR_O:
+            return true;
         default:
             return false;
     }
@@ -71,14 +90,14 @@ bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_reviung41(
     KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     TD(U),    KC_I,     KC_O,     KC_P,     KC_BSPC,
-    KC_ESC,   HR_A,     HR_S,     HR_D,     HR_F,      KC_G,               KC_H,     HR_J,     HR_K,     HR_L,     HR_SCLN,  KC_QUOT,
-    XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
-                                            KC_ESC,   LOWER,   KC_SPC,  RAISE,      KC_DEL
+    XXXXXXX,  HR_A,     HR_S,     HR_D,     HR_F,      KC_G,               KC_H,     HR_J,     HR_K,     HR_L,     HR_SCLN,  KC_QUOT,
+    XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,
+                                            KC_ESC,    LOWER,    KC_SPC,   RAISE,      KC_DEL
   ),
 
   [_COLEMAK] = LAYOUT_reviung41(
     _______,   KC_Q,     KC_W,     KC_F,     KC_P,      KC_B,               KC_J,     KC_L,     KC_U,     KC_Y,     KC_SCLN,  _______,
-    _______,   KC_A,     KC_R,     KC_S,     KC_T,      KC_G,               KC_M,     KC_N,     KC_E,     KC_I,     KC_O,     _______,
+    _______,   HR_A,     HR_R,     HR_S2,    HR_T,      KC_G,               KC_M,     HR_N,     HR_E,     HR_I,     HR_O,     _______,
     _______,   KC_Z,     KC_X,     KC_C,     KC_D,      KC_V,               KC_K,     KC_H,     KC_COMM,  KC_DOT,   KC_SLSH,  _______,
                                             _______,   _______,   _______,  _______,   _______
   ),
