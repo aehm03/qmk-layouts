@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     TD(U),    KC_I,     KC_O,     KC_P,     KC_BSPC,
     XXXXXXX,  HR_A,     HR_S,     HR_D,     HR_F,      KC_G,               KC_H,     HR_J,     HR_K,     HR_L,     HR_SCLN,  KC_QUOT,
     XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,
-                                            KC_ESC,    LOWER,    KC_SPC,   RAISE,      KC_DEL
+                                            KC_ESC,    LOWER,    KC_SPC,   RAISE,    KC_DEL
   ),
 
   [_COLEMAK] = LAYOUT_reviung41(
@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,    KC_PERC,            KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_DEL,
     _______,  KC_UNDS,  KC_PLUS,  KC_LCBR,  KC_RCBR,   KC_PIPE,            KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_GRV,   KC_TILD,
     _______,  KC_LCTL,  KC_LALT,  KC_LGUI,  KC_CAPS,   KC_DQUO,            KC_HOME,  KC_END,   KC_PGUP,  KC_PGDN,  KC_PSCR,  RSFT_T(KC_SPC),
-                                            _______,   _______,  KC_ENT,   _______,  _______
+                                            _______,   _______,  KC_ENT,   _______,  ______
   ),
   
   [_RAISE] = LAYOUT_reviung41(
